@@ -1,0 +1,9 @@
+pandas==2.1
+chardet
+flask==2.1.3
+flask-smorest==0.36.0
+SQLAlchemy==1.4.51
+flask-sqlalchemy
+pymysql
+mysql-connector-python
+mysqlclient
