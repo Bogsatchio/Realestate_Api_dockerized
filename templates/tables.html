@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Table Visuals{% endblock %}
+{% block content %}
+<div class="px-4 pt-5 my-5 text-center border-bottom">
+    <h1 class="display-8 fw-bold text-body-emphasis">Select Data</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">What do you want to see</p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+          <div style="text-align: center; width: 450px">
+            {{ render_form(form) }}
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}

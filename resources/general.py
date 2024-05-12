@@ -6,7 +6,7 @@ from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from data_prep_and_insert import refresh_database
 
-from data_prep_and_insert import process_file, file_processing
+from data_prep_and_insert import process_file, file_processing, truncate_all
 from utils.sqls import sql_data_overview, sql_price_change, sql_market_comparison, sql_age_comparison
 from db import db
 
@@ -34,6 +34,23 @@ class RefreshData(MethodView):
                 'error_traceback': error_traceback
             }
             return jsonify(error_message), 404
+
+@blp.route("/truncate_all")
+class TruncateAllData(MethodView):
+    def delete(self):
+        try:
+            truncate_all(db)
+            return jsonify({'message': 'All the tables were truncated'}), 200
+        except Exception as e:
+            error_traceback = traceback.format_exc()
+            error_message = {
+                'error_type': type(e).__name__,
+                'error_message': str(e),
+                'error_traceback': error_traceback
+            }
+            return jsonify(error_message), 404
+
+
 
 @blp.route("/general/overview")
 class DataOverview(MethodView):
@@ -125,7 +142,7 @@ class MarketComparisonCsv(MethodView):
         try:
             df = pd.read_sql(sql_market_comparison, db.engine)
             df.set_index(["city", "market"], inplace=True)
-            csv_data = df.to_csv(index_label='index')
+            csv_data = df.to_csv(index_label=['city', 'market'])
             response = Response(csv_data, content_type='text/csv')
             response.headers['Content-Disposition'] = f'attachment; filename=market_comparison.csv'
 

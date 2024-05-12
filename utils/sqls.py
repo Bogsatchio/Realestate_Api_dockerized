@@ -111,11 +111,22 @@ WHERE build_year is not null
 GROUP BY city, age_of_apartment
 """
 
+sql_get_cities_data = """
+SELECT city ,MIN(size_m2) as min ,MAX(size_m2) as max from real_estate_data GROUP BY city
+"""
+
+def get_entire_search(city, min_s, max_s):
+    query = f""" 
+    SELECT * FROM real_estate_data
+    WHERE city = '{city}' AND size_m2 > {int(min_s)} AND size_m2 < {int(max_s)} ;
+    """
+    return query
+
 def get_latest_search(city, min_s, max_s):
     query = f""" 
     SELECT * FROM real_estate_data
     WHERE city = '{city}' AND size_m2 > {int(min_s)} AND size_m2 < {int(max_s)} 
-    AND scrap_time = (SELECT MAX(scrap_time) FROM real_estate_data WHERE city = 'Plock');
+    AND scrap_time = (SELECT MAX(scrap_time) FROM real_estate_data WHERE city = '{city}');
     """
     return query
 
@@ -127,3 +138,19 @@ def get_prices_over_time(city, min_s, max_s):
     GROUP BY scrap_time 
     """
     return query
+
+def get_price_change(city, min_s, max_s):
+    query = f"""
+    select changed_price_tbl.link, data_tbl.scrap_time, data_tbl.price
+    FROM real_estate_data as data_tbl join 
+    (
+    SELECT link, count(price) FROM
+    (select distinct link, price from real_estate_data
+    WHERE city = '{city}' AND size_m2 > {min_s} AND size_m2 < {max_s}) as src_tbl
+    group by link having count(price) > 1
+    ) as changed_price_tbl
+    on data_tbl.link = changed_price_tbl.link
+    """
+    return query
+
+

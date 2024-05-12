@@ -7,3 +7,8 @@ flask-sqlalchemy
 pymysql
 mysql-connector-python
 mysqlclient
+
+Bootstrap_Flask==2.2.0
+WTForms==3.0.1
+Flask_WTF==1.2.1
+Werkzeug==2.1.0

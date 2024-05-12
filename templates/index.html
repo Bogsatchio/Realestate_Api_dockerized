@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Real Estate API Home{% endblock %}
+{% block content %}
+<div class="px-4 pt-5 my-5 text-center border-bottom">
+    <h1 class="display-8 fw-bold text-body-emphasis">Welcome to my hobby project!</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">This is an API that serves real estate data I scrapped from online postings.</p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+          <a href="/downloads"> <button type="button" class="btn btn-primary btn-lg-4" >Download Data</button> </a>
+          <a href="/endpoints"> <button type="button" class="btn btn-outline-secondary btn-lg-4">Endpoints description</button> </a>
+          <a href="/downloads"> <button type="button" class="btn btn-outline-secondary btn-lg-4">View visualisations</button> </a>
+          <a href="/downloads"> <button type="button" class="btn btn-dark btn-lg-4">Read about the project</button> </a>
+
+      </div>
+    </div>
+  </div>
+{% endblock %}

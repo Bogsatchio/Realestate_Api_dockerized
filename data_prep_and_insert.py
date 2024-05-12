@@ -36,6 +36,12 @@ def process_file(file_path, conn):
     else:
         print(f"File {file_name} has already been processed")
 
+def truncate_all(db):
+    query_trucate_data = 'TRUNCATE TABLE real_estate_data'
+    query_trucate_metadata = 'TRUNCATE TABLE processed_files;'
+    with db.engine.connect() as connection:
+        connection.execute(query_trucate_metadata)
+        connection.execute(query_trucate_data)
 
 def file_processing(file_path, db, files_added):
     file_name = file_path.split("data/")[1].replace(".json", "")
